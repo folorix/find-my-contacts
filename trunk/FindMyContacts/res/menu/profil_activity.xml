@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_appeler"
+        android:title="@string/menu_appeler"
+        android:orderInCategory="100" />
+    <item android:id="@+id/menu_mail" android:title="@string/menu_mail"></item>
+    <item android:id="@+id/menu_sms" android:title="@string/menu_sms"></item>
+    <item android:id="@+id/menu_imprimer_profil" android:title="@string/menu_imprimer_profil"></item>
+    <item android:id="@+id/menu_profil_bluetooth" android:title="@string/menu_profil_bluetooth"></item>
+    <item android:id="@+id/menu_supprimer_profil" android:title="@string/menu_supprimer_profil"></item>
+    <item android:id="@+id/menu_ajouter_contacts" android:title="@string/menu_ajouter_contacts"></item>
+</menu>
