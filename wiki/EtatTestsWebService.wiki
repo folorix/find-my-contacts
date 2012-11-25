@@ -1,4 +1,4 @@
-#summary Tests des webservice effectues avec SoapUI et le fichier
+#summary Tests des webservice effectues avec SoapUI et le fichier <a href="http://code.google.com/p/find-my-contacts/downloads/detail?name=ProjetAndroid-WS-soapui-project.xml&can=2&q=">TestWebService</a>
 
 = Etat des tests du webservice pour application Android =
 
@@ -10,7 +10,7 @@ Test Webservices
 *Logout*
 
 == TEST KO ==
-*AjoutUtilisateur* <font color="red">pas de message JSON : Erreur interne du serveur (NullPointerException)</font>
+*AjoutUtilisateur* -> <font color="red">pas de message JSON : Erreur interne du serveur (NullPointerException)</font>
 
 *RecupererUtilisateur* -> <font color="red">pas de message JSON : Resource demandee non disponible (Erreur HTTP 404 sur page web)</font>
 
