@@ -7,18 +7,19 @@ import java.util.concurrent.TimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
 import com.ingesup.android.projet.json.FormatMessageEnvoi;
 import com.ingesup.android.projet.json.GestionMessage;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class ProfilUtilisateurActivity extends Activity {
+public class ProfilUtilisateurActivity extends MapActivity {
 
 	private String _jetonSession;
 	private String _login;
@@ -26,13 +27,17 @@ public class ProfilUtilisateurActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.profil_layout);
+
         // recuperation des valeurs correspondant au login et au jeton de session
         Intent vIntent = getIntent();
         _jetonSession = (String) vIntent.getExtras().get("jeton");
         _login = (String) vIntent.getExtras().get("login");
         
-        setContentView(R.layout.profil_layout);
+        // ajouter les controles de zoom sur la mapview
+        MapView mapView = (MapView) findViewById(R.id.mapview);
+        mapView.setBuiltInZoomControls(true);
+        
     }
 
     @Override
@@ -49,7 +54,7 @@ public class ProfilUtilisateurActivity extends Activity {
     
     @Override
     public void onBackPressed() {    	
-    	// creer message deconnexion
+    	// creer message JSON de deconnexion
     	JSONObject vMessageDeconnexion = FormatMessageEnvoi.formatterMessageLogout(_jetonSession); 
     	
     	// envoyer ordre de deconnexion
@@ -89,4 +94,9 @@ public class ProfilUtilisateurActivity extends Activity {
 		}
     	
     }
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
 }

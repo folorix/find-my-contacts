@@ -1,78 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="83dp" >
+        android:layout_height="wrap_content" >
 
-        <QuickContactBadge
-            android:id="@+id/quickBadgeContactUtilisateur"
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp" />
-        
+            android:layout_gravity="center"
+            android:contentDescription="@string/desc_photo_contact"
+            android:padding="10dp"
+            android:src="@android:drawable/sym_def_app_icon" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
-            
+
             <TextView
                 android:id="@+id/tvNomPrenom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/nom_prenom"
-                android:paddingTop="10dp" />
-            
+                android:hint="@string/nom_prenom" />
+
             <TextView
                 android:id="@+id/tvDepartement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/departement"
-                android:paddingTop="10dp" />
-            
+                android:hint="@string/departement" />
+
             <TextView
                 android:id="@+id/tvAdresse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/adresse"
-                android:paddingTop="10dp" />
-            
+                android:hint="@string/adresse" />
         </LinearLayout>
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="356dp"
-        android:gravity="center" >
-        
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="330dp"
-            android:contentDescription="@string/map_view"
-            android:src="@android:drawable/gallery_thumb" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:apiKey="0G7iMBee8zoPvlpINN1RZWap8ydStOmJaAOhC_A"
+            android:clickable="true" >
+        </com.google.android.maps.MapView>
+
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
         <Button
             android:id="@+id/btnModifPhoto"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/modifier_photo" />
-        
+
         <Button
             android:id="@+id/btnEditProfil"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/editer_profil" />
+
     </LinearLayout>
+
 </LinearLayout>
