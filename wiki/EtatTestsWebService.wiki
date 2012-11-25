@@ -2,8 +2,6 @@
 
 = Etat des tests du webservice pour application Android =
 
-Test Webservices
-
 == TEST OK ==
 *Login*
 
