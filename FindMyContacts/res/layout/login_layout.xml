@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                 android:contentDescription="@string/infos_description_label"
                 android:src="@android:drawable/ic_menu_info_details" />
         </LinearLayout>
-
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,14 +38,13 @@
                 android:src="@drawable/ic_launcher" />
         </LinearLayout>
     </LinearLayout>
-
+
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/texteErreurLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.40"
         android:gravity="center"
-        android:hint="@string/error_hint"
         android:textColor="@color/red_color"
         android:textColorHint="@color/red_color" />
 
@@ -56,7 +55,7 @@
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/champLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,7 +63,7 @@
             android:hint="@string/login_hint" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/champMotDePasse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -73,7 +72,7 @@
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnValiderLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

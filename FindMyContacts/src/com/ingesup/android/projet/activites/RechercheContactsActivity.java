@@ -1,14 +1,14 @@
-package com.ingesup.android.projet;
+package com.ingesup.android.projet.activites;
 
 import android.os.Bundle;
 import android.app.Activity;
 
-public class FindMyContactsActivity extends Activity {
+public class RechercheContactsActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_layout);
+        setContentView(R.layout.recherche_contacts_layout);
     }
 
 }
