@@ -10,6 +10,7 @@ Test Webservices
 *Logout*
 
 == TEST KO ==
+
 *AjoutUtilisateur* -> <font color="red">pas de message JSON : Erreur interne du serveur (NullPointerException)</font>
 
 *RecupererUtilisateur* -> <font color="red">pas de message JSON : Resource demandee non disponible (Erreur HTTP 404 sur page web)</font>
