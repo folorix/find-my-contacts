@@ -1,4 +1,4 @@
-#summary Tests des webservice effectues avec SoapUI et le fichier <a href="http://code.google.com/p/find-my-contacts/downloads/detail?name=ProjetAndroid-WS-soapui-project.xml&can=2&q=">TestWebService</a>
+#summary Tests des webservice effectues avec SoapUI et le fichier ProjetAndroid-WS-soapui-project.xml
 
 = Etat des tests du webservice pour application Android =
 
