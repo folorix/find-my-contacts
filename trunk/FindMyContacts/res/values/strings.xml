@@ -41,5 +41,7 @@
     <string name="creer">Creer</string>
     <string name="menu_imprimer">Imprimer</string>
     <string name="criteres_recherche">Criteres de recherche</string>
+    <string name="DescPhotoContact">photo du contact</string>
+    <string name="desc_photo_contact">Photo du contact</string>
 
 </resources>
