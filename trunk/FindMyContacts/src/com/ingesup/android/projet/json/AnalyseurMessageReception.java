@@ -10,18 +10,23 @@ import com.ingesup.android.projet.reponses.ReponseAuthentification;
 public class AnalyseurMessageReception {
 	
 	public static ReponseAuthentification analyserReponseAuthentification(JSONObject pMessageRecu) {
-		ReponseAuthentification vReponseAuthentification = null;
+		if(pMessageRecu == null)
+			throw new IllegalArgumentException("Message reponse incorrect");
+		
+		ReponseAuthentification vReponseAuthentification = new ReponseAuthentification();
 		
 		try {
-			String vJetonSession = (String) pMessageRecu.get("sessionToken");
-			boolean vEtat = pMessageRecu.getBoolean("status");
-			
-			vReponseAuthentification = new ReponseAuthentification(vJetonSession, vEtat);
-			
+			vReponseAuthentification.setJetonSession((String) pMessageRecu.get("sessionToken"));
 		} catch (JSONException e) {
-			Log.d(AnalyseurMessageReception.class.toString(), "Impossible d'analyser la reponse de la demande d'authentification : " + e.getMessage());
+			Log.e(AnalyseurMessageReception.class.toString(), "attribut \"sessionToken\" absent");
 		}
-		
+			
+		try {
+			vReponseAuthentification.setEstAuthentifie(pMessageRecu.getBoolean("status"));
+		} catch (JSONException e) {
+			Log.e(AnalyseurMessageReception.class.toString(), "attribut \"status\" absent");
+		}
+			
 		return vReponseAuthentification;
 	}
 }
