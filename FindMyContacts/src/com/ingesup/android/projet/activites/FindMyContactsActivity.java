@@ -63,7 +63,7 @@ public class FindMyContactsActivity extends Activity {
 							ReponseAuthentification vMessageReponseAuthentification = 
 									AnalyseurMessageReception.analyserReponseAuthentification(vMessageReponse);
 							
-							if(vMessageReponseAuthentification.estAuthentifie()) {
+							if((vMessageReponseAuthentification != null) && (vMessageReponseAuthentification.estAuthentifie())) {
 								Toast.makeText(FindMyContactsActivity.this, vLogin + " connecté !", Toast.LENGTH_SHORT).show();
 								Intent vIntent = new Intent(FindMyContactsActivity.this, ProfilUtilisateurActivity.class);
 								vIntent.putExtra("login", vLogin);
