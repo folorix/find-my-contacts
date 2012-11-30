@@ -48,7 +48,9 @@ public class ProfilUtilisateurActivity extends MapActivity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	Log.d(ProfilUtilisateurActivity.class.toString(), item.toString());
+    	String vItemSelectionne = item.toString();
+    	Log.d(ProfilUtilisateurActivity.class.toString(), vItemSelectionne);
+    	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
     	return super.onOptionsItemSelected(item);
     }
     
@@ -60,7 +62,8 @@ public class ProfilUtilisateurActivity extends MapActivity {
     	// envoyer ordre de deconnexion
     	GestionMessage vGestionnaireMessage = new GestionMessage();
     	vGestionnaireMessage.execute(
-    			"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",
+//				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
+				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
     			vMessageDeconnexion.toString());
     	
     	try {
