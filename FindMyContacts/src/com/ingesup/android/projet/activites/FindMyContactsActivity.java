@@ -39,7 +39,9 @@ public class FindMyContactsActivity extends Activity {
 				// recuperation des valeurs des champs texte
 				TextView vChampLogin =  (TextView) findViewById(R.id.champLogin);
 				TextView vChampMotDePasse = (TextView) findViewById(R.id.champMotDePasse);
-													
+				TextView vTexteMessageErreur = (TextView) findViewById(R.id.texteErreurLogin);
+				vTexteMessageErreur.setText("");
+				
 				if(isNetworkAvailable()) {
 					// Creation du message JSON pour l'authentification
 					String vLogin = vChampLogin.getText().toString();
@@ -52,7 +54,8 @@ public class FindMyContactsActivity extends Activity {
 					// Envoi du message en tache de fond
 					GestionMessage vGestionnaireMessage = new GestionMessage();
 					vGestionnaireMessage.execute(
-							"http://192.168.0.71:8080/ab_service_mgr/api/mobile/login",
+//							"http://192.168.0.71:8080/ab_service_mgr/api/mobile/login",	// home
+							"http://10.10.160.230:8080/ab_service_mgr/api/mobile/login",	// school
 							vMessageJSON.toString());
 					
 					// Lecture du message reponse
@@ -71,7 +74,6 @@ public class FindMyContactsActivity extends Activity {
 								startActivity(vIntent);
 							}
 							else {
-								TextView vTexteMessageErreur = (TextView) findViewById(R.id.texteErreurLogin);
 								vTexteMessageErreur.setText("Login/Mot de passe incorrect");
 							}
 						}
@@ -85,6 +87,7 @@ public class FindMyContactsActivity extends Activity {
 						Log.e(FindMyContactsActivity.class.toString(), "Impossible de recuperer le message reponse JSON : " + e.getMessage());
 					} catch (TimeoutException e) {
 						Log.e(FindMyContactsActivity.class.toString(), "Timeout atteint...");
+						vTexteMessageErreur.setText("Serveur indisponible");						
 					}
 				}
 				else {
