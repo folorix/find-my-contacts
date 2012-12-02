@@ -28,6 +28,9 @@
     <string name="menu_supprimer_profil">Supprimer le profil</string>
     <string name="menu_ajouter_contacts">Ajouter à mes contacts</string>
     <string name="message_erreur">Message d\'erreur</string>
+    <string name="menu_rapport">Rapport</string>
+    <string name="menu_rechercher">Rechercher</string>
+    <string name="menu_ajouter">Ajouter</string>
     <string name="nom">Nom</string>
     <string name="prenom">Prenom</string>
     <string name="date_naissance">Date de naissance</string>
@@ -43,5 +46,12 @@
     <string name="criteres_recherche">Criteres de recherche</string>
     <string name="DescPhotoContact">photo du contact</string>
     <string name="desc_photo_contact">Photo du contact</string>
+    <string name="menu_deconnexion">Deconnexion</string>
+    <string name="titre_boite_dialogue_ajout_contacts">Options d\'ajout de contact</string>
+    <string-array name="options_ajout_contacts">
+        <item >Manuel</item>
+        <item >Depuis mes contacts</item>
+    </string-array>
+    
 
 </resources>
