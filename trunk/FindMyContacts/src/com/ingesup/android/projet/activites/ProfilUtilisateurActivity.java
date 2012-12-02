@@ -13,6 +13,7 @@ import com.ingesup.android.projet.json.FormatMessageEnvoi;
 import com.ingesup.android.projet.json.GestionMessage;
 
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -34,36 +35,57 @@ public class ProfilUtilisateurActivity extends MapActivity {
         _jetonSession = (String) vIntent.getExtras().get("jeton");
         _login = (String) vIntent.getExtras().get("login");
         
+        // parametrer l'actionbar
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        
         // ajouter les controles de zoom sur la mapview
         MapView mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profil_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_profil, menu);
         return true;
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	String vItemSelectionne = item.toString();
-    	Log.d(ProfilUtilisateurActivity.class.toString(), vItemSelectionne);
-    	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+    	
+    	switch(item.getItemId()) {
+    		case R.id.menu_ajouter : // TODO : implementer botie de dialogue    		
+	    	case R.id.menu_rapport : Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+	    							 break;
+	    							 
+	    	case android.R.id.home : case R.id.menu_deconnexion : deconnexion(); break;
+	    	
+	    	case R.id.menu_rechercher_contacts: Intent vIntent = new Intent(ProfilUtilisateurActivity.this, RechercheContactsActivity.class);
+												startActivity(vIntent);
+												break;
+												
+	    	default : Log.e(ProfilUtilisateurActivity.class.toString(), "Menu inconnu : " + item.getItemId());
+    	}
+
     	return super.onOptionsItemSelected(item);
     }
     
     @Override
     public void onBackPressed() {    	
-    	// creer message JSON de deconnexion
+    	deconnexion();
+    }
+
+	private void deconnexion() {
+		// creer message JSON de deconnexion
     	JSONObject vMessageDeconnexion = FormatMessageEnvoi.formatterMessageLogout(_jetonSession); 
     	
     	// envoyer ordre de deconnexion
     	GestionMessage vGestionnaireMessage = new GestionMessage();
     	vGestionnaireMessage.execute(
-//				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
-				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
+				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
+//				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
     			vMessageDeconnexion.toString());
     	
     	try {
@@ -95,8 +117,7 @@ public class ProfilUtilisateurActivity extends MapActivity {
 		} catch (JSONException e) {
 			Log.e(ProfilUtilisateurActivity.class.toString(), "Impossible d'analyser la reponse de la demande de deconnexion : " + e.getMessage());
 		}
-    	
-    }
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {

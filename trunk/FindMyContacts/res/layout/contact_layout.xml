@@ -66,6 +66,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" >
 
+        <Button
+            android:id="@+id/btnModifPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/modifier_photo" />
+
+        <Button
+            android:id="@+id/btnEditProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editer_profil" />
+
     </LinearLayout>
 
 </LinearLayout>
