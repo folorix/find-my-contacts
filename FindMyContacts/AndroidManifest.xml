@@ -23,14 +23,15 @@
         <uses-library android:name="com.google.android.maps"/>
         
         <activity
-            android:name="com.ingesup.android.projet.activites.FindMyContactsActivity"
-            android:label="@string/app_name" >
+            android:name="com.ingesup.android.projet.activites.SplashScreen"
+            android:label="@string/app_name" android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
+        <activity android:name="com.ingesup.android.projet.activites.FindMyContactsActivity" />
         <activity android:name="com.ingesup.android.projet.activites.ProfilUtilisateurActivity" />
         <activity android:name="com.ingesup.android.projet.activites.ImpressionRapportBirtActivity" />
         <activity android:name="com.ingesup.android.projet.activites.RechercheContactsActivity" />
