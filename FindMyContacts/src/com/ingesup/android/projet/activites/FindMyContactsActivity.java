@@ -54,8 +54,9 @@ public class FindMyContactsActivity extends Activity {
 					// Envoi du message en tache de fond
 					GestionMessage vGestionnaireMessage = new GestionMessage();
 					vGestionnaireMessage.execute(
-							"http://192.168.0.71:8080/ab_service_mgr/api/mobile/login",	// home
+//							"http://192.168.0.71:8080/ab_service_mgr/api/mobile/login",	// home
 //							"http://10.10.160.230:8080/ab_service_mgr/api/mobile/login",	// school
+							"http://10.68.218.19:8080/ab_service_mgr/api/mobile/login",	// work
 							vMessageJSON.toString());
 					
 					// Lecture du message reponse

@@ -9,11 +9,16 @@ import org.json.JSONObject;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.ingesup.android.projet.json.FormatMessageEnvoi;
 import com.ingesup.android.projet.json.GestionMessage;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +29,8 @@ public class ProfilUtilisateurActivity extends MapActivity {
 
 	private String _jetonSession;
 	private String _login;
+	
+	private MyLocationOverlay _maPosition = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,10 @@ public class ProfilUtilisateurActivity extends MapActivity {
         MapView mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         
+        // affichage de la position de l'utilisateur
+        _maPosition = new MyLocationOverlay(getApplicationContext(), mapView);
+        mapView.getOverlays().add(_maPosition);
+        _maPosition.enableMyLocation();
     }
     
     @Override
@@ -56,11 +67,33 @@ public class ProfilUtilisateurActivity extends MapActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	
     	switch(item.getItemId()) {
-    		case R.id.menu_ajouter : // TODO : implementer botie de dialogue    		
+    		case R.id.menu_ajouter : 
+    								AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						            builder.setTitle(R.string.titre_boite_dialogue_ajout_contacts);
+						            builder.setItems(R.array.options_ajout_contacts, new DialogInterface.OnClickListener() {
+						                   public void onClick(DialogInterface dialog, int which) {
+						                	   switch (which) {
+											case 0: {
+														Intent vIntent = new Intent(ProfilUtilisateurActivity.this, AjoutNouvelUtilisateurActivity.class);
+														startActivity(vIntent);
+													}
+													break;
+											case 1: {
+														Intent vIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people/"));
+														startActivity(vIntent);
+													}
+													break;	
+											default: Log.e(ProfilUtilisateurActivity.class.toString(), "Index de l'item selectionne dans la boite de dialogue inconnu : " + which);
+												break;
+											}
+						                   }
+						            });
+						            builder.create().show();
+    								break;
 	    	case R.id.menu_rapport : Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
 	    							 break;
 	    							 
-	    	case android.R.id.home : case R.id.menu_deconnexion : deconnexion(); break;
+	    	case android.R.id.home : case R.id.menu_deconnexion : onBackPressed(); break;
 	    	
 	    	case R.id.menu_rechercher_contacts: Intent vIntent = new Intent(ProfilUtilisateurActivity.this, RechercheContactsActivity.class);
 												startActivity(vIntent);
@@ -73,8 +106,23 @@ public class ProfilUtilisateurActivity extends MapActivity {
     }
     
     @Override
-    public void onBackPressed() {    	
-    	deconnexion();
+    public void onBackPressed() {
+    	// Issue #1 (FDA) : Ajout de la Popup de confirmation avant déconnexion de l'utilisateur
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.deconnexion);
+        builder.setPositiveButton(R.string.oui, new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+		    	deconnexion();
+			}
+		});
+        builder.setNegativeButton(R.string.non, new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+        builder.create().show();
     }
 
 	private void deconnexion() {
@@ -84,8 +132,9 @@ public class ProfilUtilisateurActivity extends MapActivity {
     	// envoyer ordre de deconnexion
     	GestionMessage vGestionnaireMessage = new GestionMessage();
     	vGestionnaireMessage.execute(
-				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
+//				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
 //				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
+				"http://10.68.218.19:8080/ab_service_mgr/api/mobile/logout",	// work
     			vMessageDeconnexion.toString());
     	
     	try {
@@ -123,4 +172,19 @@ public class ProfilUtilisateurActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    // quand l'activite est réouverte, on rafraichit la position
+	    _maPosition.enableMyLocation();
+	}
+
+	@Override
+	protected void onPause() {
+	    super.onPause();
+	    // quand l'activite est en pause on desactive la recherche de position
+	    _maPosition.disableMyLocation();
+	}
+
 }

@@ -52,6 +52,10 @@
         <item >Manuel</item>
         <item >Depuis mes contacts</item>
     </string-array>
+    <string name="menu_ajouter_a_mes_contacts">Ajouter à mes contacts</string>
+    <string name="deconnexion">Se déconnecter ?</string>
+    <string name="oui">Oui</string>
+    <string name="non">Non</string>
     
 
 </resources>
