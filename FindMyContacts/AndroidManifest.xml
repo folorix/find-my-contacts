@@ -37,7 +37,8 @@
         <activity android:name="com.ingesup.android.projet.activites.ImpressionRapportBirtActivity" />
         <activity android:name="com.ingesup.android.projet.activites.RechercheContactsActivity" />
         <activity android:name="com.ingesup.android.projet.activites.AjoutNouvelUtilisateurActivity" />       
-		<activity android:name="com.ingesup.android.projet.activites.ProfilContactActivity" />       
+		<activity android:name="com.ingesup.android.projet.activites.ProfilContactActivity" />
+		<activity android:name="com.ingesup.android.projet.activites.PreferencesActivity" />
         
     </application>
 

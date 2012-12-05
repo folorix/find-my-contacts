@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:dialogMessage="Saisissez l&apos;adresse du serveur"
+        android:dialogTitle="URL du serveur"
+        android:negativeButtonText="@string/annuler"
+        android:positiveButtonText="@android:string/ok"
+        android:title="URL Serveur" android:key="serveur"/>
+
+</PreferenceScreen>

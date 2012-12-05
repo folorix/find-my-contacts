@@ -29,9 +29,11 @@ public class ProfilUtilisateurActivity extends MapActivity {
 
 	private String _jetonSession;
 	private String _login;
-	
+
 	private MyLocationOverlay _maPosition = null;
 	
+	private String _ipServeur = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class ProfilUtilisateurActivity extends MapActivity {
         Intent vIntent = getIntent();
         _jetonSession = (String) vIntent.getExtras().get("jeton");
         _login = (String) vIntent.getExtras().get("login");
+        _ipServeur = (String) vIntent.getExtras().get("serveur");
         
         // parametrer l'actionbar
         ActionBar actionBar = getActionBar();
@@ -125,16 +128,14 @@ public class ProfilUtilisateurActivity extends MapActivity {
         builder.create().show();
     }
 
-	private void deconnexion() {
+	private void deconnexion() {		
 		// creer message JSON de deconnexion
     	JSONObject vMessageDeconnexion = FormatMessageEnvoi.formatterMessageLogout(_jetonSession); 
     	
     	// envoyer ordre de deconnexion
     	GestionMessage vGestionnaireMessage = new GestionMessage();
     	vGestionnaireMessage.execute(
-				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
-//				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
-//				"http://10.68.218.19:8080/ab_service_mgr/api/mobile/logout",	// work
+				"http://" + _ipServeur + "/ab_service_mgr/api/mobile/logout",
     			vMessageDeconnexion.toString());
     	
     	try {

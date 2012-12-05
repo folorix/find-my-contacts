@@ -55,6 +55,8 @@
     <string name="deconnexion">Se déconnecter ?</string>
     <string name="oui">Oui</string>
     <string name="non">Non</string>
+    <string name="annuler">Annuler</string>
+    <string name="preferences">Preferences</string>
     
 
 </resources>
