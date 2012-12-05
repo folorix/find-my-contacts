@@ -132,9 +132,9 @@ public class ProfilUtilisateurActivity extends MapActivity {
     	// envoyer ordre de deconnexion
     	GestionMessage vGestionnaireMessage = new GestionMessage();
     	vGestionnaireMessage.execute(
-//				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
+				"http://192.168.0.71:8080/ab_service_mgr/api/mobile/logout",	// home
 //				"http://10.10.160.230:8080/ab_service_mgr/api/mobile/logout",	// school
-				"http://10.68.218.19:8080/ab_service_mgr/api/mobile/logout",	// work
+//				"http://10.68.218.19:8080/ab_service_mgr/api/mobile/logout",	// work
     			vMessageDeconnexion.toString());
     	
     	try {

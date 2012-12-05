@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <ScrollView
@@ -54,19 +54,21 @@
                     android:inputType="date" />
 
                 <EditText
-                    android:id="@+id/tfNumRue"
+                    android:id="@+id/tfAdresse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/num_rue"
-                    android:inputType="number" />
+                    android:hint="@string/adresse"
+                    android:inputType="textPostalAddress"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/tfVille"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/ville" />
+                    android:hint="@string/ville"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/tfCodePostal"
@@ -74,14 +76,16 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/code_postal"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/tfPays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/pays" />
+                    android:hint="@string/pays"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/tfTelephone"
