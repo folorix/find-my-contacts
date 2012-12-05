@@ -15,7 +15,6 @@
     <color name="red_color">#F00</color>
     <string name="nom_prenom">NOM Prenom</string>
     <string name="departement">Departement</string>
-    <string name="adresse">Adresse</string>
     <string name="modifier_photo">Modifier photo</string>
     <string name="editer_profil">Editer profil</string>
     <string name="map_view">MapView</string>
@@ -34,7 +33,7 @@
     <string name="nom">Nom</string>
     <string name="prenom">Prenom</string>
     <string name="date_naissance">Date de naissance</string>
-    <string name="num_rue">Numero de rue</string>
+    <string name="adresse">Adresse</string>
     <string name="ville">Ville</string>
     <string name="code_postal">Code postal</string>
     <string name="pays">Pays</string>
