@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<group android:id="@+id/group1">
-       <item android:id="@+id/menu_appeler"
+     <item android:id="@+id/menu_appeler"
         android:title="@string/menu_appeler"
-        android:showAsAction="ifRoom|withText"/>
-	    <item android:id="@+id/menu_mail" 
-	        android:title="@string/menu_mail"
-	        android:showAsAction="ifRoom|withText"/>
-	    <item android:id="@+id/menu_sms" 
-	        android:title="@string/menu_sms"
-	        android:showAsAction="ifRoom|withText"/>
-	    <item android:id="@+id/menu_imprimer_profil"
-	        android:title="@string/menu_imprimer_profil"
-	        android:showAsAction="ifRoom|withText"/>
-	    <item android:id="@+id/menu_profil_bluetooth" 
-	        android:title="@string/menu_profil_bluetooth"
-	        android:showAsAction="ifRoom|withText"/>
-	    <item android:id="@+id/menu_supprimer_profil" 
-	        android:title="@string/menu_supprimer_profil"
-			android:showAsAction="ifRoom|withText"/>
- 	    <item android:id="@+id/menu_ajouter_a_mes_contacts" 
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_mail" 
+        android:title="@string/menu_mail"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_sms" 
+        android:title="@string/menu_sms"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_imprimer_profil"
+        android:title="@string/menu_imprimer_profil"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_profil_bluetooth" 
+        android:title="@string/menu_profil_bluetooth"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_supprimer_profil" 
+        android:title="@string/menu_supprimer_profil"
+		android:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_ajouter_a_mes_contacts" 
         android:title="@string/menu_ajouter_a_mes_contacts"
-		android:showAsAction="ifRoom|withText"/>
-  	</group>
+		android:showAsAction="ifRoom"/>
 </menu>
