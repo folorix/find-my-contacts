@@ -3,6 +3,8 @@ package com.ingesup.android.projet.activites;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +17,10 @@ public class ProfilContactActivity extends MapActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_layout);
+        
+        ActionBar vActionBar = getActionBar();
+        vActionBar.setDisplayShowTitleEnabled(false);
+        vActionBar.setDisplayShowHomeEnabled(false);
         
         // ajouter les controles de zoom sur la mapview
         MapView mapView = (MapView) findViewById(R.id.mapview);
@@ -41,4 +47,12 @@ public class ProfilContactActivity extends MapActivity {
 		return false;
 	}
 	
+	@Override
+	public void onBackPressed() {
+		// #Issue 15 (FDA) : Forçage du retour au profil utilisateur et non à l'écran de création d'un nouvel utilisateur
+		Intent intent = new Intent(ProfilContactActivity.this, ProfilUtilisateurActivity .class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+	}
 }

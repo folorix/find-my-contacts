@@ -32,7 +32,8 @@
         </activity>
         
         <activity android:name="com.ingesup.android.projet.activites.FindMyContactsActivity" />
-        <activity android:name="com.ingesup.android.projet.activites.ProfilUtilisateurActivity" />
+        <activity android:name="com.ingesup.android.projet.activites.ProfilUtilisateurActivity" 
+            android:launchMode="singleTop"/>
         <activity android:name="com.ingesup.android.projet.activites.ImpressionRapportBirtActivity" />
         <activity android:name="com.ingesup.android.projet.activites.RechercheContactsActivity" />
         <activity android:name="com.ingesup.android.projet.activites.AjoutNouvelUtilisateurActivity" />       
