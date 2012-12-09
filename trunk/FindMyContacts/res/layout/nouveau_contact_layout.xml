@@ -17,12 +17,12 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvMessageErreur"
+                android:id="@+id/tvErreurAjoutContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
-                android:textColorHint="@color/red_color" />
+                android:textColor="@color/red_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/nom"
-                    android:inputType="textPersonName" />
+                    android:inputType="textCapCharacters|textPersonName"
+                    android:singleLine="true" />
 
                 <EditText
                     android:id="@+id/tfPrenom"
@@ -43,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/prenom"
-                    android:inputType="textPersonName" />
+                    android:inputType="textCapWords|textPersonName"
+                    android:singleLine="true" />
 
                 <EditText
                     android:id="@+id/tfDateNaissance"
@@ -51,24 +53,31 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/date_naissance"
-                    android:inputType="date" />
+                    android:inputType="text|datetime|date|time"
+                    android:singleLine="true" />
 
                 <EditText
-                    android:id="@+id/tfAdresse"
+                    android:id="@+id/tfNumRue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/adresse"
-                    android:inputType="textPostalAddress"
+                    android:hint="@string/num_rue"
+                    android:inputType="number"
+                    android:singleLine="true"
                     android:visibility="gone" />
 
                 <EditText
-                    android:id="@+id/tfVille"
+                    android:id="@+id/tfNomRue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/ville"
-                    android:visibility="gone" />
+                    android:hint="@string/nom_rue"
+                    android:inputType="textCapWords|textPostalAddress"
+                    android:singleLine="true"
+                    android:visibility="gone" >
+
+                    <requestFocus />
+                </EditText>
 
                 <EditText
                     android:id="@+id/tfCodePostal"
@@ -77,6 +86,17 @@
                     android:ems="10"
                     android:hint="@string/code_postal"
                     android:inputType="number"
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/tfVille"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/ville"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
                     android:visibility="gone" />
 
                 <EditText
@@ -85,6 +105,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/pays"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
                     android:visibility="gone" />
 
                 <EditText
@@ -93,7 +115,17 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/telephone"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/tfEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
             </LinearLayout>
 
             <LinearLayout

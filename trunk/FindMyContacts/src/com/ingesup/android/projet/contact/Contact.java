@@ -1,12 +1,10 @@
 package com.ingesup.android.projet.contact;
 
-import java.util.Date;
-
 public class Contact {
 	
 	private String _nom = new String();
 	private String _prenom = new String();
-	private Date _dateNaissance = new Date();
+	private String _dateNaissance = new String();
 	
 	private int _numRue;
 	private String _nomRue = new String();
@@ -18,6 +16,9 @@ public class Contact {
 	private String _email = new String();
 
 	private boolean _estGeolocalisable = false;
+	
+	private double _longitude;
+	private double _latitude;
 	
 	public String getNom() {
 		return _nom;
@@ -35,11 +36,11 @@ public class Contact {
 		this._prenom = pPrenom;
 	}
 	
-	public Date getDateNaissance() {
+	public String getDateNaissance() {
 		return _dateNaissance;
 	}
 	
-	public void setDateNaissance(Date pDateNaissance) {
+	public void setDateNaissance(String pDateNaissance) {
 		this._dateNaissance = pDateNaissance;
 	}
 	
@@ -99,8 +100,27 @@ public class Contact {
 		this._estGeolocalisable = pEstGeolocalisable;
 	}
 
+	public double getLongitude() {
+		return _longitude;
+	}
+
+	public double getLatitude() {
+		return _latitude;
+	}
+
+	public void setLatitude(double pLatitude) {
+		_latitude = pLatitude;
+	}
+
+	public void setLongitude(double pLongitude) {
+		_longitude = pLongitude;
+	}
+
 	public String getEmail() {
 		return _email;
 	}
-		
+	
+	public void setEmail(String pEmail) {
+		_email = pEmail;
+	}
 }

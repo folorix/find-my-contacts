@@ -57,6 +57,9 @@
     <string name="non">Non</string>
     <string name="annuler">Annuler</string>
     <string name="preferences">Preferences</string>
+    <string name="nom_rue">Nom Rue</string>
+    <string name="num_rue">N° Rue</string>
+    <string name="email">Email</string>
     
 
 </resources>
