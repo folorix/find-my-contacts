@@ -13,20 +13,6 @@ import com.ingesup.android.projet.outils.Sha1Utils;
 
 public class FormatMessageEnvoi {
 	
-	public static JSONObject formatterMessageParDefaut(String pSessionToken) {
-		JSONObject vMessage = new JSONObject();
-		
-		try {
-			vMessage.accumulate("wsCallerId", "ipponTech");
-			vMessage.accumulate("timestamp", String.valueOf(Calendar.getInstance().getTimeInMillis()));
-			vMessage.accumulate("hash", pSessionToken);
-		} catch (JSONException e) {
-			Log.d(FormatMessageEnvoi.class.toString(), "Impossible de formatter le message par defaut : " + e.getMessage());
-		}
-		
-		return vMessage;
-	}
-	
 	public static JSONObject formatterMessageParDefaut() {
 		JSONObject vMessage = new JSONObject();
 		
@@ -57,12 +43,12 @@ public class FormatMessageEnvoi {
 		return vMessage;
 	}
 	
-	public static JSONObject formatterMessageLogout(String pSessionToken) {
+	public static JSONObject formatterMessageLogout() {
 		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageAjoutUtilisateur(String pSessionToken, Contact pContactAAjouter) {
-		JSONObject vMessage = formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageAjoutUtilisateur(Contact pContactAAjouter) {
+		JSONObject vMessage = formatterMessageParDefaut();
 		try {
 			vMessage.accumulate("nom", pContactAAjouter.getNom());
 			vMessage.accumulate("prenom", pContactAAjouter.getPrenom());
@@ -74,46 +60,54 @@ public class FormatMessageEnvoi {
 			vMessage.accumulate("pays", pContactAAjouter.getPays());
 			vMessage.accumulate("tel", pContactAAjouter.getNumTelephone());
 			vMessage.accumulate("email", pContactAAjouter.getEmail());
+			vMessage.accumulate("longitude", pContactAAjouter.getLongitude());
+			vMessage.accumulate("latitude", pContactAAjouter.getLatitude());			
 		} catch (JSONException e) {
-			Log.d(FormatMessageEnvoi.class.toString(), "Impossible de formatter le message d'ajout d'un utilisateur : " + e.getMessage());
+			Log.d(FormatMessageEnvoi.class.toString(), "Impossible de formatter le message d'ajout d'un contact : " + e.getMessage());
 		}
 		
-		return null;
+		return vMessage;
 	}
 	
-	public static JSONObject formatterMessageSuppressionUtilisateur(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageSuppressionUtilisateur() {
+		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageMajUtilisateur(String pSessionToken, Contact pContactAMettreAJour) {
-		return formatterMessageAjoutUtilisateur(pSessionToken, pContactAMettreAJour);
+	public static JSONObject formatterMessageMajUtilisateur(Contact pContactAMettreAJour, int pIdContact) {
+		JSONObject vMessageMajUtilisateur = formatterMessageAjoutUtilisateur(pContactAMettreAJour);
+		try {
+			vMessageMajUtilisateur.accumulate("identifiant", String.valueOf(pIdContact));
+		} catch (JSONException e) {
+			Log.d(FormatMessageEnvoi.class.toString(), "Impossible de formatter le message de mise a jour du contact : " + e.getMessage());
+		}
+		return vMessageMajUtilisateur;
 	}
 	
-	public static JSONObject formatterMessageRecuperationUtilisateur(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageRecuperationUtilisateur(int pIdContact) {
+		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageRecuperationUtilisateurs(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageRecuperationUtilisateurs() {
+		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageChangementPhotoUtilisateur(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageChangementPhotoUtilisateur() {
+		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageRecuperationPhotoUtilisateur(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageRecuperationPhotoUtilisateur() {
+		return formatterMessageParDefaut();
 	}
 
-	public static JSONObject formatterMessageSuppressionPhotoUtilisateur(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageSuppressionPhotoUtilisateur() {
+		return formatterMessageParDefaut();
 	}
 	
-	public static JSONObject formatterMessageServiceRecherche(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public static JSONObject formatterMessageServiceRecherche() {
+		return formatterMessageParDefaut();
 	}
 	
-	public JSONObject formatterMessageServiceGenerationRapport(String pSessionToken) {
-		return formatterMessageParDefaut(pSessionToken);
+	public JSONObject formatterMessageServiceGenerationRapport() {
+		return formatterMessageParDefaut();
 	}
 }

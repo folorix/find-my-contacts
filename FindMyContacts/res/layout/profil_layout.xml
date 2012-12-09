@@ -9,7 +9,7 @@
         android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/imgProfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,22 +24,15 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvNomPrenom"
+                android:id="@+id/tvNomPrenomProfil"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/nom_prenom" />
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tvDepartement"
+                android:id="@+id/tvAdresseProfil"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/departement" />
+                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tvAdresse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/adresse" />
         </LinearLayout>
     </LinearLayout>
 

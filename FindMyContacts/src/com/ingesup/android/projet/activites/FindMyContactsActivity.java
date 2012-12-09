@@ -44,12 +44,12 @@ public class FindMyContactsActivity extends Activity {
         vBoutonValider.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				String vIpServeur = _preferences.getString("SERVEUR", "");
-				Log.d(FindMyContactsActivity.class.toString(), "IP Serveur : " + vIpServeur);
+				String vAdresseServeur = _preferences.getString("SERVEUR", "");
+				Log.d(FindMyContactsActivity.class.toString(), "IP Serveur : " + vAdresseServeur);
 				
 				TextView vTexteMessageErreur = (TextView) findViewById(R.id.texteErreurLogin);
 
-				if(vIpServeur.equals("")) {
+				if(vAdresseServeur.equals("")) {
 					Log.e(FindMyContactsActivity.class.toString(), "Timeout atteint...");
 					vTexteMessageErreur.setText("Serveur non défini.\nAppuyer sur \'MENU\' puis \"Préférences\" pour changer l'adresse IP du serveur");	
 				}
@@ -71,7 +71,7 @@ public class FindMyContactsActivity extends Activity {
 						// Envoi du message en tache de fond
 						GestionMessage vGestionnaireMessage = new GestionMessage();
 						vGestionnaireMessage.execute(
-								"http://" + vIpServeur + "/ab_service_mgr/api/mobile/login",
+								"http://" + vAdresseServeur + "/ab_service_mgr/api/mobile/login",
 								vMessageJSON.toString());
 						
 						// Lecture du message reponse
@@ -87,7 +87,7 @@ public class FindMyContactsActivity extends Activity {
 									Intent vIntent = new Intent(FindMyContactsActivity.this, ProfilUtilisateurActivity.class);
 									vIntent.putExtra("login", vLogin);
 									vIntent.putExtra("jeton", vMessageReponseAuthentification.getJetonSession());
-									vIntent.putExtra("serveur", vIpServeur);
+									vIntent.putExtra("serveur", vAdresseServeur);
 									startActivity(vIntent);
 								}
 								else {
@@ -108,8 +108,7 @@ public class FindMyContactsActivity extends Activity {
 						}
 					}
 					else {
-						Toast.makeText(FindMyContactsActivity.this, "Vérifier votre connexion reseau", Toast.LENGTH_LONG).show();
-						Log.d(FindMyContactsActivity.class.toString(), "Vérifier votre connexion reseau");
+						vTexteMessageErreur.setText("Vérifier votre connexion reseau");
 					}
 				}
 			}
