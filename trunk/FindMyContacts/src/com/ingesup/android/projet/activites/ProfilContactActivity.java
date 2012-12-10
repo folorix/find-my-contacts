@@ -15,6 +15,8 @@ import com.ingesup.android.projet.json.FormatMessageEnvoi;
 import com.ingesup.android.projet.json.GestionMessage;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.TextView;
@@ -68,7 +69,7 @@ public class ProfilContactActivity extends MapActivity {
 
         // ajout des actions sur les boutons "Modifier photo profil" et "Editer profil"
         Button vBoutonModificationPhoto = (Button) findViewById(R.id.btnModifPhoto);
-        vBoutonModificationPhoto.setOnClickListener(new OnClickListener() {
+        vBoutonModificationPhoto.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -77,7 +78,7 @@ public class ProfilContactActivity extends MapActivity {
 		});
         
         Button vBoutonEditionProfil = (Button) findViewById(R.id.btnEditProfil);
-        vBoutonEditionProfil.setOnClickListener(new OnClickListener() {
+        vBoutonEditionProfil.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 				Intent vIntent = new Intent(ProfilContactActivity.this, MAJContactActivity.class);
@@ -187,6 +188,7 @@ public class ProfilContactActivity extends MapActivity {
 	    		
 	    		break;
 	    	}
+	    	
 	    	case R.id.menu_sms : {
 	    		if(!vNumTelContact.equals("")) {
 		    		Intent vIntent = new Intent(Intent.ACTION_SENDTO);
@@ -199,21 +201,40 @@ public class ProfilContactActivity extends MapActivity {
 	    		
 	    		break;
 	    	}
+	    	
 	    	case R.id.menu_imprimer_profil : {
 	    		// TODO : implementer impression profil
 	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
+	    	
 	    	case R.id.menu_profil_bluetooth : {
 	    		// TODO : implementer envoi du profil par bluetooth
 	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
+	    	
 	    	case R.id.menu_supprimer_profil : {
-	    		// TODO : popup confirmation + webservice 'deleteUser'
-	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
-	    		break;
+	    		// Issue #20 : Suppression du profil
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	            builder.setTitle(R.string.suppression_profil);
+	            builder.setPositiveButton(R.string.oui, new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						supprimerContact();
+					}
+				});
+	            builder.setNegativeButton(R.string.non, new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+	            builder.create().show();
+
+				break;
 	    	}
+	    	
 	    	case R.id.menu_ajouter_a_mes_contacts : {
 	    		// TODO : implementer ecriture contacts dans carnet d'adresse du telephone
 	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
@@ -227,6 +248,47 @@ public class ProfilContactActivity extends MapActivity {
     	
     	return super.onOptionsItemSelected(item);
     }
+
+	// Issue #20 : Suppression du profil
+	protected void supprimerContact() {
+    	JSONObject vMessageDemandeSuppressionContact = FormatMessageEnvoi.formatterMessageSuppressionUtilisateur();
+    	GestionMessage vGestionnaireMessage = new GestionMessage();
+    	vGestionnaireMessage.execute(
+    			"http://" + _adresseServeur + "/ab_service_mgr/api/mobile/delete/" + _idContact,
+    			vMessageDemandeSuppressionContact.toString());
+    	
+    	try {
+    		String vEtat = null;
+    		String vCodeErreur = null;
+			JSONObject vMessageReponseSuppressionContact = vGestionnaireMessage.get(10, TimeUnit.SECONDS);
+			if(!vMessageReponseSuppressionContact.isNull("status"))
+				vEtat = (String) vMessageReponseSuppressionContact.get("status");
+			if(!vMessageReponseSuppressionContact.isNull("errorCode"))
+				vCodeErreur = (String) vMessageReponseSuppressionContact.get("errorCode");
+			
+			boolean vEtatMessage = vEtat!=null?Boolean.parseBoolean(vEtat):false;
+			int vValeurCodeErreur = vCodeErreur!=null?Integer.parseInt(vCodeErreur):0;
+			
+			if(vEtatMessage) {
+				Toast.makeText(ProfilContactActivity.this, "Contact " + _contact.getNom() + " " + _contact.getPrenom() + "supprimé avec succès !", Toast.LENGTH_SHORT).show();
+				onBackPressed();
+			}
+			else if(vValeurCodeErreur == 200) {
+				Toast.makeText(ProfilContactActivity.this, 
+						"Impossible de de supprimer le contact : " + vMessageReponseSuppressionContact.get("errorMsg"),
+						Toast.LENGTH_LONG).show();
+			}
+			
+		} catch (InterruptedException e) {
+			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Tache de suppression d'un contact interrompue : " + e.getMessage()); 
+		} catch (ExecutionException e) {
+			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
+		} catch (JSONException e) {
+			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de recuperer un des attributs du message reponse : " + e.getMessage());
+		} catch (TimeoutException e) {
+			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Message retour non recu : " + e.getMessage());
+		}
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
