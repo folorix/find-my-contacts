@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <EditTextPreference
-        android:dialogMessage="Saisissez l&apos;adresse du serveur"
-        android:dialogTitle="URL du serveur"
-        android:negativeButtonText="@string/annuler"
-        android:positiveButtonText="@android:string/ok"
-        android:title="URL Serveur" android:key="serveur"/>
+    <PreferenceCategory android:title="General" >
+        <EditTextPreference
+            android:dialogMessage="Saisissez l&apos;adresse du serveur"
+            android:dialogTitle="URL du serveur"
+            android:key="serveur"
+            android:negativeButtonText="@string/annuler"
+            android:positiveButtonText="@android:string/ok"
+            android:title="URL Serveur" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Compte e-mail pour transfert SMS" >
+        <EditTextPreference
+            android:dialogMessage="Saisissez l&apos;adresse de votre compte e-mail"
+            android:dialogTitle="E-mail"
+            android:key="user_mail_address"
+            android:negativeButtonText="@string/annuler"
+            android:positiveButtonText="@android:string/ok"
+            android:title="E-mail" 
+			android:inputType="textEmailAddress" />
+        
+        <EditTextPreference
+            android:dialogMessage="Saisissez le mot de passe de votre compte e-mail"
+            android:dialogTitle="Mot de passe"
+            android:key="user_mail_password"
+            android:negativeButtonText="@string/annuler"
+            android:positiveButtonText="@android:string/ok"
+            android:title="Mot de passe" 
+            android:inputType="textPassword" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -2,6 +2,8 @@ package com.ingesup.android.projet.contact;
 
 public class Contact {
 	
+	private int _id;
+	
 	private String _nom = new String();
 	private String _prenom = new String();
 	private String _dateNaissance = new String();
@@ -19,6 +21,14 @@ public class Contact {
 	
 	private double _longitude;
 	private double _latitude;
+	
+	public int getId() {
+		return _id;
+	}
+	
+	public void setId(int pId) {
+		this._id = pId;
+	}
 	
 	public String getNom() {
 		return _nom;
@@ -122,5 +132,13 @@ public class Contact {
 	
 	public void setEmail(String pEmail) {
 		_email = pEmail;
+	}
+	
+	@Override
+	public String toString() {
+		if(_nom == null || _nom.equals(""))
+			return _prenom;
+		
+		return _nom + " " + _prenom;
 	}
 }

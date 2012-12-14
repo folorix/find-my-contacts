@@ -81,8 +81,13 @@ public class GestionMessage extends AsyncTask<String, Void, JSONObject>{
 					data += (char) c;
 				}				
 	
-				JSONTokener object = new JSONTokener(data);
-				vMessageReponse = (JSONObject) object.nextValue();
+				if(data != null && !data.equals("")) {
+					JSONTokener object = new JSONTokener(data);
+					if(object.more())
+						vMessageReponse = (JSONObject) object.nextValue();
+					
+				}
+				
 				vFluxLecture.close();
 			}
 			else {

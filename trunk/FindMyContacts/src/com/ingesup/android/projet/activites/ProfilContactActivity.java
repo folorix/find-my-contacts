@@ -72,8 +72,7 @@ public class ProfilContactActivity extends MapActivity {
         vBoutonModificationPhoto.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Toast.makeText(ProfilContactActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 			}
 		});
         
@@ -210,7 +209,7 @@ public class ProfilContactActivity extends MapActivity {
 	    	
 	    	case R.id.menu_profil_bluetooth : {
 	    		// TODO : implementer envoi du profil par bluetooth
-	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ProfilContactActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
 	    	
@@ -237,7 +236,7 @@ public class ProfilContactActivity extends MapActivity {
 	    	
 	    	case R.id.menu_ajouter_a_mes_contacts : {
 	    		// TODO : implementer ecriture contacts dans carnet d'adresse du telephone
-	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ProfilContactActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
 	    	
@@ -280,13 +279,13 @@ public class ProfilContactActivity extends MapActivity {
 			}
 			
 		} catch (InterruptedException e) {
-			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Tache de suppression d'un contact interrompue : " + e.getMessage()); 
+			Log.e(AjoutNouveauContactActivity.class.toString(), "Tache de suppression d'un contact interrompue : " + e.getMessage()); 
 		} catch (ExecutionException e) {
-			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
+			Log.e(AjoutNouveauContactActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
 		} catch (JSONException e) {
-			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de recuperer un des attributs du message reponse : " + e.getMessage());
+			Log.e(AjoutNouveauContactActivity.class.toString(), "Impossible de recuperer un des attributs du message reponse : " + e.getMessage());
 		} catch (TimeoutException e) {
-			Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Message retour non recu : " + e.getMessage());
+			Log.e(AjoutNouveauContactActivity.class.toString(), "Message retour non recu : " + e.getMessage());
 		}
 	}
 
