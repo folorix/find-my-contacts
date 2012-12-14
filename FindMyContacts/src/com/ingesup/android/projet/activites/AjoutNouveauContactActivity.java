@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class AjoutNouvelUtilisateurActivity extends Activity {
+public class AjoutNouveauContactActivity extends Activity {
 	
 	private String _adresseServeur;
 
@@ -110,9 +110,9 @@ public class AjoutNouvelUtilisateurActivity extends Activity {
 						int vValeurCodeErreur = vCodeErreur!=null?Integer.parseInt(vCodeErreur):0;
 						
 						if(vEtatMessage) {
-							Toast.makeText(AjoutNouvelUtilisateurActivity.this, "Contact crée avec succès !", Toast.LENGTH_SHORT).show();
+							Toast.makeText(AjoutNouveauContactActivity.this, "Contact crée avec succès !", Toast.LENGTH_SHORT).show();
 							int vIdentifiant = Integer.parseInt((String) vReponseAjoutContact.get("identifiant"));
-							Intent vIntent = new Intent(AjoutNouvelUtilisateurActivity.this, ProfilContactActivity.class);
+							Intent vIntent = new Intent(AjoutNouveauContactActivity.this, ProfilContactActivity.class);
 							vIntent.putExtra("serveur", _adresseServeur);
 							vIntent.putExtra("id", vIdentifiant);
 							startActivity(vIntent);
@@ -122,13 +122,13 @@ public class AjoutNouvelUtilisateurActivity extends Activity {
 						}
 					}
 				} catch (InterruptedException e) {
-					Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Tache d'ajout d'un contact interrompue : " + e.getMessage()); 
+					Log.e(AjoutNouveauContactActivity.class.toString(), "Tache d'ajout d'un contact interrompue : " + e.getMessage()); 
 				} catch (ExecutionException e) {
-					Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
+					Log.e(AjoutNouveauContactActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
 				} catch (JSONException e) {
-					Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Impossible de recuperer un des attributs du message reponse : " + e.getMessage());
+					Log.e(AjoutNouveauContactActivity.class.toString(), "Impossible de recuperer un des attributs du message reponse : " + e.getMessage());
 				} catch (TimeoutException e) {
-					Log.e(AjoutNouvelUtilisateurActivity.class.toString(), "Message retour non recu : " + e.getMessage());
+					Log.e(AjoutNouveauContactActivity.class.toString(), "Message retour non recu : " + e.getMessage());
 				}
 			}
 		});

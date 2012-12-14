@@ -23,6 +23,8 @@ public class PreferencesActivity extends PreferenceActivity {
 		// sauvegarder la valeur du serveur
 		Editor vEditeur = vPreferences.edit();
 		vEditeur.putString("SERVEUR", vPreferences.getString("serveur", ""));
+		vEditeur.putString("USER_MAIL_ADDRESS", vPreferences.getString("user_mail_address", ""));
+		vEditeur.putString("USER_MAIL_PASSWORD", vPreferences.getString("user_mail_password", ""));
 		vEditeur.commit();
 		
 		super.onBackPressed();

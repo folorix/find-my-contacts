@@ -35,8 +35,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/nom"
-                    android:inputType="textCapCharacters|textPersonName"
-                    android:singleLine="true" />
+                    android:inputType="textCapCharacters" />
 
                 <EditText
                     android:id="@+id/tfPrenom"
@@ -45,6 +44,7 @@
                     android:ems="10"
                     android:hint="@string/prenom"
                     android:inputType="textCapWords|textPersonName"
+                    android:maxLines="1"
                     android:singleLine="true" />
 
                 <EditText
@@ -54,6 +54,7 @@
                     android:ems="10"
                     android:hint="@string/date_naissance"
                     android:inputType="text|datetime|date|time"
+                    android:maxLines="1"
                     android:singleLine="true" />
 
                 <EditText
@@ -63,6 +64,7 @@
                     android:ems="10"
                     android:hint="@string/num_rue"
                     android:inputType="number"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:visibility="gone" />
 
@@ -116,6 +118,7 @@
                     android:ems="10"
                     android:hint="@string/telephone"
                     android:inputType="phone"
+                    android:maxLines="1"
                     android:singleLine="true" />
 
                 <EditText
@@ -124,7 +127,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
 
             </LinearLayout>
 

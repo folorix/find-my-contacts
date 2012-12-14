@@ -16,6 +16,7 @@ import com.ingesup.android.projet.json.GestionMessage;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Profile;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -47,6 +48,8 @@ public class ProfilUtilisateurActivity extends MapActivity {
         Profile.LOOKUP_KEY,
         Profile.PHOTO_THUMBNAIL_URI,
     };
+
+	protected static final int CONTACT_PICKER_RESULT = 1001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,8 +94,6 @@ public class ProfilUtilisateurActivity extends MapActivity {
                         null);
     	
         vProfilCursor.moveToFirst();
-        long vUserProfileId = vProfilCursor.getLong(0);
-        Log.d(ProfilUtilisateurActivity.class.toString(), "ID User Profile : " + vUserProfileId);
         
         // recuperation du nom prenom de profil utilisateur
         TextView vTvNomPrenom = (TextView) findViewById(R.id.tvNomPrenomProfil);
@@ -102,7 +103,7 @@ public class ProfilUtilisateurActivity extends MapActivity {
         ImageView vImgProfil = (ImageView) findViewById(R.id.imgProfil);
         vImgProfil.setImageURI(Uri.parse(vProfilCursor.getString(3)));
         
-        // TODO: Recuperer adresse postale        
+        // TODO: Recuperer adresse postale
         // TODO: Recuperer numero de telephone
         // TODO: Recuperer adresse email
         	
@@ -126,14 +127,14 @@ public class ProfilUtilisateurActivity extends MapActivity {
 	                   public void onClick(DialogInterface dialog, int which) {
 	                	   switch (which) {
 						case 0: {
-									Intent vIntent = new Intent(ProfilUtilisateurActivity.this, AjoutNouvelUtilisateurActivity.class);
+									Intent vIntent = new Intent(ProfilUtilisateurActivity.this, AjoutNouveauContactActivity.class);
 									vIntent.putExtra("serveur", _adresseServeur);
 									startActivity(vIntent);
 								}
 								break;
 						case 1: {
-									Intent vIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people/"));
-									startActivity(vIntent);
+									Intent vIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+									startActivityForResult(vIntent, CONTACT_PICKER_RESULT);
 								}
 								break;	
 						default: Log.e(ProfilUtilisateurActivity.class.toString(), "Index de l'item selectionne dans la boite de dialogue inconnu : " + which);
@@ -144,7 +145,7 @@ public class ProfilUtilisateurActivity extends MapActivity {
 	            builder.create().show();
 				break;
 	    	case R.id.menu_rapport : 
-	    		Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ProfilUtilisateurActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 	    		break;
 	    							 
 	    	case android.R.id.home : case R.id.menu_deconnexion : 
@@ -152,6 +153,7 @@ public class ProfilUtilisateurActivity extends MapActivity {
 	    	
 	    	case R.id.menu_rechercher_contacts: 
 	    		Intent vIntent = new Intent(ProfilUtilisateurActivity.this, RechercheContactsActivity.class);
+	    		vIntent.putExtra("serveur", _adresseServeur);
 				startActivity(vIntent);
 				break;
 												
@@ -243,4 +245,23 @@ public class ProfilUtilisateurActivity extends MapActivity {
 	    _maPosition.disableMyLocation();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK) {
+			switch(requestCode) {
+				case CONTACT_PICKER_RESULT:
+					Uri result = data.getData();
+					String id = result.getLastPathSegment();
+					Intent vIntent = new Intent(ProfilUtilisateurActivity.this, AjoutContactExistantActivity.class);
+					vIntent.putExtra("id", id);
+					vIntent.putExtra("serveur", _adresseServeur);
+					startActivity(vIntent);
+					break;
+				default: Log.e(ProfilUtilisateurActivity.class.toString(), "Code retour non reconnu : " + requestCode);
+			}
+		}
+		else {
+			Log.d(ProfilUtilisateurActivity.class.toString(), "Warning: Resultat KO");
+		}
+	}
 }

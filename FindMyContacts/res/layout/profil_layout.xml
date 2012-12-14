@@ -48,7 +48,7 @@
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0G7iMBee8zoPvlpINN1RZWap8ydStOmJaAOhC_A"
+            android:apiKey="0G7iMBee8zoMtYQ7OwBatJqlwkfyoegXZZy4bUA"
             android:clickable="true" >
         </com.google.android.maps.MapView>
 

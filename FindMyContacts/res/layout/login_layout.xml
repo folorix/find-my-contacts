@@ -60,7 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
-            android:hint="@string/login_hint" />
+            android:hint="@string/login_hint"
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/champMotDePasse"
@@ -69,7 +70,8 @@
             android:layout_gravity="center"
             android:ems="10"
             android:hint="@string/password_hint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
         <Button
             android:id="@+id/btnValiderLogin"

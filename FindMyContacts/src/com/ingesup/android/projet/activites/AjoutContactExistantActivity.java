@@ -13,7 +13,13 @@ import com.ingesup.android.projet.json.GestionMessage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.StructuredName;
+import android.provider.ContactsContract.CommonDataKinds.StructuredPostal;
+import android.provider.ContactsContract.Data;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +32,7 @@ import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 // Issue #17 : Edition d'un contact
-public class MAJContactActivity extends Activity {
+public class AjoutContactExistantActivity extends Activity {
 	private int _idContact;
 	private String _adresseServeur;
 
@@ -37,13 +43,13 @@ public class MAJContactActivity extends Activity {
 		
 		// recuperation des valeurs de l'intent
 		Intent vIntent = getIntent();
-		_idContact = (Integer) vIntent.getExtras().get("id");
+		_idContact = Integer.parseInt(vIntent.getExtras().getString("id"));
 		_adresseServeur = (String) vIntent.getExtras().get("serveur");
 		
         // recuperation de l'utilisateur
 		final TextView vTfNom  = (TextView) findViewById(R.id.tfNom);
 		final TextView vTfPrenom = (TextView) findViewById(R.id.tfPrenom);
-		final TextView vTfDateNaissance = (TextView) findViewById(R.id.tfDateNaissance);
+//		final TextView vTfDateNaissance = (TextView) findViewById(R.id.tfDateNaissance);
 		final TextView vTfNumRue = (TextView) findViewById(R.id.tfNumRue);
 		final TextView vTfNomRue = (TextView) findViewById(R.id.tfNomRue);
 		final TextView vTfCodePostal = (TextView) findViewById(R.id.tfCodePostal);
@@ -71,64 +77,57 @@ public class MAJContactActivity extends Activity {
 				}
 			}
 		});
+		vTogBtnGeoloc.setChecked(true);
+
+		/* recuperation des informations du contact*/
 		
-        JSONObject vMessageDemandeRecuperationUtilisateur = 
-        		FormatMessageEnvoi.formatterMessageRecuperationUtilisateur(_idContact);
-        
-        GestionMessage vGestionnaireMessage = new GestionMessage();
-        vGestionnaireMessage.execute(
-        		"http://" + _adresseServeur + "/ab_service_mgr/api/mobile/user/" + _idContact,
-        		vMessageDemandeRecuperationUtilisateur.toString());
-        
-        try {
-        	JSONObject vMessageReponse = vGestionnaireMessage.get(10, TimeUnit.SECONDS);
-        	if(vMessageReponse != null) {
-        		
-                // mise a jour des champs de la vue
-        		if(!vMessageReponse.isNull("nom"))
-        			vTfNom.setText((String)vMessageReponse.get("nom"));
-        		if(!vMessageReponse.isNull("prenom"))
-        			vTfPrenom.setText((String) vMessageReponse.get("prenom"));
-        		if(!vMessageReponse.isNull("dateNaissance"))
-        			vTfDateNaissance.setText((String) vMessageReponse.get("dateNaissance"));        		
-        		if(!vMessageReponse.isNull("numeroRue")) {
-        			String vNumRue = (String) vMessageReponse.get("numeroRue");
-        			if(Integer.parseInt(vNumRue) > 0)
-        				vTfNumRue.setText(vNumRue);
-        			else
-        				vTfNumRue.setText("");
-        		}
-        		if(!vMessageReponse.isNull("nomRue"))
-        			vTfNomRue.setText((String) vMessageReponse.get("nomRue"));
-        		if(!vMessageReponse.isNull("codePostal"))
-        			vTfCodePostal.setText((String) vMessageReponse.get("codePostal"));
-        		if(!vMessageReponse.isNull("ville"))
-        			vTfVille.setText((String) vMessageReponse.get("ville"));
-        		if(!vMessageReponse.isNull("pays"))
-        			vTfPays.setText((String) vMessageReponse.get("pays"));
-        		
-        		if(!vMessageReponse.isNull("tel"))
-        			vTfTel.setText((String) vMessageReponse.get("tel"));
-        		if(!vMessageReponse.isNull("email"))
-        			vTfEmail.setText((String) vMessageReponse.get("email"));
-        		
-        		vTogBtnGeoloc.setChecked(true);
-        	}
-        	else {
-        		Log.e(ProfilContactActivity.class.toString(), "Message reponse vide");
-        	}
-        	
-		} catch (InterruptedException e) {
-			Log.e(ProfilContactActivity.class.toString(), "Tache de recuperation d'un contact interrompue : " + e.getMessage()); 
-		} catch (ExecutionException e) {
-			Log.e(ProfilContactActivity.class.toString(), "Impossible de récupérer le message réponse : " + e.getMessage()); 
-		} catch (TimeoutException e) {
-			Log.e(ProfilContactActivity.class.toString(), "Message réponse non recu : " + e.getMessage());
-		} catch (JSONException e) {
-			Log.e(ProfilContactActivity.class.toString(), "Impossible de recuperer la valeur d'un des attributs : " + e.getMessage());
+		// recuperation du nom, prenom du contact
+		Cursor cursor = getContentResolver().query(Data.CONTENT_URI,
+		          new String[] {StructuredName.CONTACT_ID, StructuredName.FAMILY_NAME, StructuredName.GIVEN_NAME},
+		          StructuredName.CONTACT_ID + "=?" + " AND "
+		                  + StructuredName.MIMETYPE + "='" + StructuredName.CONTENT_ITEM_TYPE + "'",
+		          new String[] {String.valueOf(_idContact)}, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() > 0) {
+			vTfNom.setText(cursor.getString(cursor.getColumnIndex(StructuredName.FAMILY_NAME)));
+			vTfPrenom.setText(cursor.getString(cursor.getColumnIndex(StructuredName.GIVEN_NAME)));
 		}
-        
+		cursor.close();
 		
+		// recuperation de l'adresse du contact
+		cursor = getContentResolver().query(StructuredPostal.CONTENT_URI,
+		          new String[] {Data.CONTACT_ID, StructuredPostal.FORMATTED_ADDRESS},
+		          Data.CONTACT_ID + "=?" + " AND "
+		                  + Data.MIMETYPE + "='" + StructuredPostal.CONTENT_ITEM_TYPE + "'",
+		          new String[] {String.valueOf(_idContact)}, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() > 0) {
+			vTfNomRue.setText(cursor.getString(cursor.getColumnIndex(StructuredPostal.FORMATTED_ADDRESS)));
+		}
+		cursor.close();
+
+		// recuperation du numero de telephone
+		cursor = getContentResolver().query(Data.CONTENT_URI,
+		          new String[] {Data._ID, Phone.NUMBER},
+		          Data.CONTACT_ID + "=?" + " AND "
+		                  + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'",
+		          new String[] {String.valueOf(_idContact)}, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() > 0)
+			vTfTel.setText(cursor.getString(cursor.getColumnIndex(Phone.NUMBER)));
+		cursor.close();
+
+		// recuperation de l'email
+		cursor = getContentResolver().query(Data.CONTENT_URI,
+		          new String[] {Data._ID, Email.ADDRESS},
+		          Data.CONTACT_ID + "=?" + " AND "
+		                  + Data.MIMETYPE + "='" + Email.CONTENT_ITEM_TYPE + "'",
+		          new String[] {String.valueOf(_idContact)}, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() > 0)
+			vTfEmail.setText(cursor.getString(cursor.getColumnIndex(Email.ADDRESS)));
+		cursor.close();
+    			
 		// onClick sur bouton creer : mettre a jour contact
 		Button vBoutonCreerContact = (Button) findViewById(R.id.btnValiderContact);
 		vBoutonCreerContact.setOnClickListener(new OnClickListener() {
@@ -158,7 +157,7 @@ public class MAJContactActivity extends Activity {
 					// Envoi du message en tache de fond
 					GestionMessage vGestionnaireMessage = new GestionMessage();
 					vGestionnaireMessage.execute(
-							"http://" + _adresseServeur + "/ab_service_mgr/api/mobile/updateUser", 
+							"http://" + _adresseServeur + "/ab_service_mgr/api/mobile/addUser", 
 							vMessageAjoutContact.toString());
 
 					// Recuperation du message réponse
@@ -176,9 +175,9 @@ public class MAJContactActivity extends Activity {
 						int vValeurCodeErreur = vCodeErreur!=null?Integer.parseInt(vCodeErreur):0;
 						
 						if(vEtatMessage) {
-							Toast.makeText(MAJContactActivity.this, "Contact mis à jour avec succès !", Toast.LENGTH_SHORT).show();
+							Toast.makeText(AjoutContactExistantActivity.this, "Contact mis à jour avec succès !", Toast.LENGTH_SHORT).show();
 							int vIdentifiant = Integer.parseInt((String) vReponseAjoutContact.get("identifiant"));
-							Intent vIntent = new Intent(MAJContactActivity.this, ProfilContactActivity.class);
+							Intent vIntent = new Intent(AjoutContactExistantActivity.this, ProfilContactActivity.class);
 							vIntent.putExtra("serveur", _adresseServeur);
 							vIntent.putExtra("id", vIdentifiant);
 							vIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 

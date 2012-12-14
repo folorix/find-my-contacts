@@ -32,7 +32,7 @@
     <string name="menu_ajouter">Ajouter</string>
     <string name="nom">Nom</string>
     <string name="prenom">Prenom</string>
-    <string name="date_naissance">Date de naissance</string>
+    <string name="date_naissance">Date de naissance (jj/mm/aaaa)</string>
     <string name="adresse">Adresse</string>
     <string name="ville">Ville</string>
     <string name="code_postal">Code postal</string>
@@ -42,7 +42,6 @@
     <string name="toggle_button">Toggle Button</string>
     <string name="creer">Creer</string>
     <string name="menu_imprimer">Imprimer</string>
-    <string name="criteres_recherche">Criteres de recherche</string>
     <string name="DescPhotoContact">photo du contact</string>
     <string name="desc_photo_contact">Photo du contact</string>
     <string name="menu_deconnexion">Deconnexion</string>
@@ -60,7 +59,7 @@
     <string name="nom_rue">Nom Rue</string>
     <string name="num_rue">N° Rue</string>
     <string name="email">Email</string>
-    <string name="suppression_profil">Suppression du profil</string>
+    <string name="suppression_profil">Supprimer le contact ?</string>
     
 
 </resources>
