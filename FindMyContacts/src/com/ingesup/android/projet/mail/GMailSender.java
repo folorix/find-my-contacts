@@ -11,9 +11,11 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -52,7 +54,7 @@ public class GMailSender extends Authenticator {
 	}
 
 	public synchronized void sendMail(String subject, String body,
-			String sender, String recipients) throws Exception {
+			String sender, String recipients) throws AddressException, MessagingException {
 
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()

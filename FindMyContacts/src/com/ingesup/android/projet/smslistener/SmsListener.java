@@ -1,5 +1,8 @@
 package com.ingesup.android.projet.smslistener;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import com.ingesup.android.projet.mail.GMailSender;
 
 import android.content.BroadcastReceiver;
@@ -55,21 +58,25 @@ public class SmsListener extends BroadcastReceiver {
 								if(((vUser != null) && (!vUser.equals(""))) && 
 										((vPassword != null) && (!vPassword.equals("")))) {
 									
-									try {
-										GMailSender sender = new GMailSender(vUser, vPassword);
-										sender.sendMail(
-												SUBJECT, 
-												"Expediteur: " + msg_from + "\n" + "Message : " + msgBody,
-												msg_from,
-												vUser);
+									
+										try {
+											GMailSender sender = new GMailSender(vUser, vPassword);
+											sender.sendMail(
+													SUBJECT, 
+													"Expediteur: " + msg_from + "\n" + "Message : " + msgBody,
+													msg_from,
+													vUser);
+										} catch (AddressException e) {
+											Log.e("ErreurAdresse", e.getMessage());
+										} catch (MessagingException e) {
+											Log.e("ErreurMessage", "Impossible d'envoyer le message : " + e.getMessage());
+										}
 																				
-									} catch (Exception e) {
-										Log.e("SendMail", "Impossible d'envoyer le mail : " + e.getMessage() );
-									}
+									
 									
 								}
 								else {
-									Log.d("Transfert sms vers mail", "Utilisateur et Mot de passe non défini dans les préférences");
+									Log.d("TransfertSms2Mail", "Utilisateur et Mot de passe non défini dans les préférences");
 								}
 								
 								return null;
