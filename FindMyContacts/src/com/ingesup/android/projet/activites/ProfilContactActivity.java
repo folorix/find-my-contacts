@@ -14,7 +14,6 @@ import com.ingesup.android.projet.contact.Contact;
 import com.ingesup.android.projet.json.FormatMessageEnvoi;
 import com.ingesup.android.projet.json.GestionMessage;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +39,7 @@ public class ProfilContactActivity extends MapActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_layout);
+        setTitle("Profil du contact");
         
         // récupération des informations de création d'un nouveau contact
         Intent vIntent = getIntent();
@@ -57,11 +57,9 @@ public class ProfilContactActivity extends MapActivity {
         } catch (Exception ex) {
             // Ignore
         }
-        
-        // configuration de l'apparence de l'action bar
-        ActionBar vActionBar = getActionBar();
-        vActionBar.setDisplayShowTitleEnabled(false);
-        vActionBar.setDisplayShowHomeEnabled(false);
+
+        // parametrer l'actionbar
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         
         // ajouter les controles de zoom sur la mapview
         MapView mapView = (MapView) findViewById(R.id.mapview);
@@ -203,7 +201,7 @@ public class ProfilContactActivity extends MapActivity {
 	    	
 	    	case R.id.menu_imprimer_profil : {
 	    		// TODO : implementer impression profil
-	        	Toast.makeText(this, item.toString() + " sélectionné", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ProfilContactActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
 	    	
@@ -239,7 +237,10 @@ public class ProfilContactActivity extends MapActivity {
 				Toast.makeText(ProfilContactActivity.this, "Fonction non implementée", Toast.LENGTH_SHORT).show();
 	    		break;
 	    	}
-	    	
+
+	    	case android.R.id.home : 
+	    		onBackPressed(); break;
+	    		
 	    	default: Toast.makeText(ProfilContactActivity.this, 
 	    			"Menu inconnu : " + item.getItemId() + "-" + item.toString(), 
 	    			Toast.LENGTH_SHORT).show();
@@ -269,7 +270,7 @@ public class ProfilContactActivity extends MapActivity {
 			int vValeurCodeErreur = vCodeErreur!=null?Integer.parseInt(vCodeErreur):0;
 			
 			if(vEtatMessage) {
-				Toast.makeText(ProfilContactActivity.this, "Contact " + _contact.getNom() + " " + _contact.getPrenom() + "supprimé avec succès !", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ProfilContactActivity.this, "Contact " + _contact.getNom() + " " + _contact.getPrenom() + " supprimé avec succès !", Toast.LENGTH_SHORT).show();
 				onBackPressed();
 			}
 			else if(vValeurCodeErreur == 200) {

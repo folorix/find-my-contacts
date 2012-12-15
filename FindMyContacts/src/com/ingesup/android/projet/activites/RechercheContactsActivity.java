@@ -23,7 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnCloseListener;
+import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 import android.app.Activity;
 import android.content.Intent;
@@ -38,8 +38,9 @@ public class RechercheContactsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recherche_contacts_layout);
+		setTitle("Rechercher un contact");
 
-        getActionBar().setDisplayShowTitleEnabled(false);
+        // parametrer l'actionbar
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
 		_vueListeContacts = (ListView) findViewById(R.id.listView1);
@@ -74,26 +75,18 @@ public class RechercheContactsActivity extends Activity {
         vSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 			
 			public boolean onQueryTextSubmit(String query) {
-				String vRequete = query;
-				if(query!= null && !query.equals("")) {
-					rechercherContact(vRequete);
-					return true;
-				}
-		        return false;
+		        return false;	// Utiliser plutot le filtre avec onQueryTextChange (optimal)
 			}
 
 			public boolean onQueryTextChange(String newText) {
-				return false;
+
+				ArrayAdapter<Contact> vList = (ArrayAdapter<Contact>) _vueListeContacts.getAdapter();
+				vList.getFilter().filter(newText);
+				
+				return true;
 			}
 		});
-        
-        vSearchView.setOnCloseListener(new OnCloseListener() {
-			
-			public boolean onClose() {
-				listerTousLesContacts();
-				return false;
-			}
-		});
+
         return true;
     }
     
@@ -106,7 +99,7 @@ public class RechercheContactsActivity extends Activity {
 	    		onBackPressed(); break;
 				
 	    	default : 
-	    		Log.e(ProfilUtilisateurActivity.class.toString(), "Menu inconnu : " + item.getItemId());
+	    		Log.e(RechercheContactsActivity.class.toString(), "Menu inconnu : " + item.getItemId());
     	}
 
     	return super.onOptionsItemSelected(item);
@@ -134,16 +127,14 @@ public class RechercheContactsActivity extends Activity {
 					vListeContacts.add(vContact);
 				}
 				
-				// TODO : Afficher dans la liste : Nom, Prenom, Photo, Adresse (si existe), Num tel
 				_vueListeContacts.setAdapter(	// TODO : utiliser un adapter special pour afficher les infos du contact
 						new ArrayAdapter<Contact>(RechercheContactsActivity.this, 
 								android.R.layout.simple_list_item_1, android.R.id.text1, vListeContacts));
 			}
 			else {
-				Log.e(RechercheContactsActivity.class.toString(), 
-						"Pas de message reponse... " +
-						"Soit il n'y a pas de contact sur le serveur, soit le serveur n'est pas dispose a répondre");
+				Toast.makeText(RechercheContactsActivity.this, "Aucun contact", Toast.LENGTH_LONG).show();
 			}
+			
 		} catch (InterruptedException e) {
 			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
 		} catch (ExecutionException e) {
@@ -154,53 +145,5 @@ public class RechercheContactsActivity extends Activity {
 			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
 		}
 	}
-	
-	private void rechercherContact(String vRequete) {
-		JSONObject vMessageDemandeRecuperationUtilisateurs = FormatMessageEnvoi.formatterMessageRecuperationUtilisateurs();
-        String vHttpUrl = null;
-        if(vRequete == null || vRequete.equals(""))
-        	vHttpUrl = "http://" + _adresseServeur + "/ab_service_mgr/api/mobile/users";
-    	else
-    		vHttpUrl = "http://" + _adresseServeur + "/ab_service_mgr/api/mobile/search?q=" + vRequete;
-        GestionMessage vGestionMessage = new GestionMessage();
-        vGestionMessage.execute(
-        		vHttpUrl,
-        		vMessageDemandeRecuperationUtilisateurs.toString());
-        
-        try {
-			JSONObject vMesssageReponse = vGestionMessage.get(10, TimeUnit.SECONDS);
-			if(vMesssageReponse != null) {
-				ArrayList<Contact> vListeContacts = new ArrayList<Contact>();
-				JSONArray vContacts = (JSONArray) vMesssageReponse.getJSONArray("userDto");
-				int vNbContacts = vContacts.length();
-				for(int vIndex=0 ; vIndex<vNbContacts ; vIndex++) {
-					JSONObject vInformationsContact = vContacts.getJSONObject(vIndex);
-					Contact vContact = new Contact();
-					vContact.setNom(vInformationsContact.getString("nom"));
-					vContact.setPrenom(vInformationsContact.getString("prenom"));
-					vContact.setId(Integer.parseInt(vInformationsContact.getString("identifiant")));
-					vListeContacts.add(vContact);
-				}
-				
-				// TODO : Afficher dans la liste : Nom, Prenom, Photo, Adresse (si existe), Num tel
-				_vueListeContacts.setAdapter(	// TODO : utiliser un adapter special pour afficher les infos du contact
-						new ArrayAdapter<Contact>(RechercheContactsActivity.this, 
-								android.R.layout.simple_list_item_1, android.R.id.text1, vListeContacts));
-				
-			}
-			else {
-				Log.e(RechercheContactsActivity.class.toString(), 
-						"Pas de message reponse... " +
-						"Soit il n'y a pas de contact sur le serveur, soit le serveur n'est pas dispose a répondre");
-			}
-		} catch (InterruptedException e) {
-			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
-		} catch (ExecutionException e) {
-			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
-		} catch (TimeoutException e) {
-			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
-		} catch (JSONException e) {
-			Log.d(RechercheContactsActivity.class.toString(), e.getMessage());
-		}
-	}
+
 }

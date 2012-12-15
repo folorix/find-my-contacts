@@ -21,6 +21,7 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal;
 import android.provider.ContactsContract.Data;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,12 +41,16 @@ public class AjoutContactExistantActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nouveau_contact_layout);
+		setTitle("Ajouter un contact");
 		
 		// recuperation des valeurs de l'intent
 		Intent vIntent = getIntent();
 		_idContact = Integer.parseInt(vIntent.getExtras().getString("id"));
 		_adresseServeur = (String) vIntent.getExtras().get("serveur");
 		
+        // parametrer l'actionbar
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        
         // recuperation de l'utilisateur
 		final TextView vTfNom  = (TextView) findViewById(R.id.tfNom);
 		final TextView vTfPrenom = (TextView) findViewById(R.id.tfPrenom);
@@ -57,7 +62,7 @@ public class AjoutContactExistantActivity extends Activity {
 		final TextView vTfPays = (TextView) findViewById(R.id.tfPays);
 		final TextView vTfTel = (TextView) findViewById(R.id.tfTelephone);
 		final TextView vTfEmail = (TextView) findViewById(R.id.tfEmail);
-		ToggleButton vTogBtnGeoloc = (ToggleButton) findViewById(R.id.togBtnGeolocalisation);
+		ToggleButton vTogBtnGeoloc = (ToggleButton) findViewById(R.id.togBtnGeolocalisation);		
 		vTogBtnGeoloc.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -79,10 +84,14 @@ public class AjoutContactExistantActivity extends Activity {
 		});
 		vTogBtnGeoloc.setChecked(true);
 
+		Button vBoutonValider = (Button) findViewById(R.id.btnValiderContact);
+		vBoutonValider.setText("Ajouter");
+		
 		/* recuperation des informations du contact*/
+		Cursor cursor = null;
 		
 		// recuperation du nom, prenom du contact
-		Cursor cursor = getContentResolver().query(Data.CONTENT_URI,
+		cursor = getContentResolver().query(Data.CONTENT_URI,
 		          new String[] {StructuredName.CONTACT_ID, StructuredName.FAMILY_NAME, StructuredName.GIVEN_NAME},
 		          StructuredName.CONTACT_ID + "=?" + " AND "
 		                  + StructuredName.MIMETYPE + "='" + StructuredName.CONTENT_ITEM_TYPE + "'",
@@ -93,11 +102,12 @@ public class AjoutContactExistantActivity extends Activity {
 			vTfPrenom.setText(cursor.getString(cursor.getColumnIndex(StructuredName.GIVEN_NAME)));
 		}
 		cursor.close();
+		cursor = null;
 		
 		// recuperation de l'adresse du contact
 		cursor = getContentResolver().query(StructuredPostal.CONTENT_URI,
-		          new String[] {Data.CONTACT_ID, StructuredPostal.FORMATTED_ADDRESS},
-		          Data.CONTACT_ID + "=?" + " AND "
+		          new String[] {StructuredPostal.FORMATTED_ADDRESS},
+		          StructuredPostal.CONTACT_ID + " = ?" + " AND "
 		                  + Data.MIMETYPE + "='" + StructuredPostal.CONTENT_ITEM_TYPE + "'",
 		          new String[] {String.valueOf(_idContact)}, null);
 		cursor.moveToFirst();
@@ -105,6 +115,7 @@ public class AjoutContactExistantActivity extends Activity {
 			vTfNomRue.setText(cursor.getString(cursor.getColumnIndex(StructuredPostal.FORMATTED_ADDRESS)));
 		}
 		cursor.close();
+		cursor = null;
 
 		// recuperation du numero de telephone
 		cursor = getContentResolver().query(Data.CONTENT_URI,
@@ -116,6 +127,7 @@ public class AjoutContactExistantActivity extends Activity {
 		if(cursor.getCount() > 0)
 			vTfTel.setText(cursor.getString(cursor.getColumnIndex(Phone.NUMBER)));
 		cursor.close();
+		cursor = null;
 
 		// recuperation de l'email
 		cursor = getContentResolver().query(Data.CONTENT_URI,
@@ -127,7 +139,8 @@ public class AjoutContactExistantActivity extends Activity {
 		if(cursor.getCount() > 0)
 			vTfEmail.setText(cursor.getString(cursor.getColumnIndex(Email.ADDRESS)));
 		cursor.close();
-    			
+		cursor = null;
+
 		// onClick sur bouton creer : mettre a jour contact
 		Button vBoutonCreerContact = (Button) findViewById(R.id.btnValiderContact);
 		vBoutonCreerContact.setOnClickListener(new OnClickListener() {
@@ -199,6 +212,20 @@ public class AjoutContactExistantActivity extends Activity {
 				}
 			}
 		});
-
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	switch(item.getItemId()) {
+ 			 
+	    	case android.R.id.home : 
+	    		onBackPressed(); break;
+				
+	    	default : 
+	    		Log.e(AjoutContactExistantActivity.class.toString(), "Menu inconnu : " + item.getItemId());
+    	}
+
+    	return super.onOptionsItemSelected(item);
+    }
 }
