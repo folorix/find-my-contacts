@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SmsListener extends BroadcastReceiver {
 
@@ -40,10 +39,6 @@ public class SmsListener extends BroadcastReceiver {
 						msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
 						msg_from = msgs[i].getOriginatingAddress();
 						msgBody = msgs[i].getMessageBody();
-
-						Toast.makeText(context,
-								"Message de " + msg_from + " : " + msgBody,
-								Toast.LENGTH_LONG).show();
 						
 						new AsyncTask<Void, Void, Void>() {
 							

@@ -12,7 +12,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Compte Gmail pour transfert SMS" >
         <EditTextPreference
-            android:dialogMessage="Saisissez l'identifiant ou l&apos;adresse de votre compte Gmail"
+            android:dialogMessage="Saisissez l'adresse email de votre compte Gmail"
             android:dialogTitle="Identifiant"
             android:key="user_mail_address"
             android:negativeButtonText="@string/annuler"
