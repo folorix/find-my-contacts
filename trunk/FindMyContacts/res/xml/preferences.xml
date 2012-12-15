@@ -10,18 +10,18 @@
             android:positiveButtonText="@android:string/ok"
             android:title="URL Serveur" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Compte e-mail pour transfert SMS" >
+    <PreferenceCategory android:title="Compte Gmail pour transfert SMS" >
         <EditTextPreference
-            android:dialogMessage="Saisissez l&apos;adresse de votre compte e-mail"
-            android:dialogTitle="E-mail"
+            android:dialogMessage="Saisissez l'identifiant ou l&apos;adresse de votre compte Gmail"
+            android:dialogTitle="Identifiant"
             android:key="user_mail_address"
             android:negativeButtonText="@string/annuler"
             android:positiveButtonText="@android:string/ok"
-            android:title="E-mail" 
+            android:title="Identifiant" 
 			android:inputType="textEmailAddress" />
         
         <EditTextPreference
-            android:dialogMessage="Saisissez le mot de passe de votre compte e-mail"
+            android:dialogMessage="Saisissez le mot de passe de votre compte Gmail"
             android:dialogTitle="Mot de passe"
             android:key="user_mail_password"
             android:negativeButtonText="@string/annuler"

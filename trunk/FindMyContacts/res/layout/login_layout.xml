@@ -43,7 +43,7 @@
         android:id="@+id/texteErreurLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.40"
+        android:layout_weight="0.20"
         android:gravity="center"
         android:textColor="@color/red_color"
         android:textColorHint="@color/red_color" />

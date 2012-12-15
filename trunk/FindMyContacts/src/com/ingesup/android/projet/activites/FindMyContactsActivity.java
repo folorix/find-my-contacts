@@ -1,5 +1,6 @@
 package com.ingesup.android.projet.activites;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,18 +42,28 @@ public class FindMyContactsActivity extends Activity {
         // Issue #14 : récupération des préférences sauvegardées
 		_preferences = PreferenceManager.getDefaultSharedPreferences(this);
         
+        // Issue #14 (FDA) : Force l'apparition de l'Overflow menu 
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
+        
         Button vBoutonValider = (Button) findViewById(R.id.btnValiderLogin);
         vBoutonValider.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				String vAdresseServeur = _preferences.getString("SERVEUR", "");
-				Log.d(FindMyContactsActivity.class.toString(), "IP Serveur : " + vAdresseServeur);
 				
 				TextView vTexteMessageErreur = (TextView) findViewById(R.id.texteErreurLogin);
 
 				if(vAdresseServeur.equals("")) {
-					Log.e(FindMyContactsActivity.class.toString(), "Timeout atteint...");
-					vTexteMessageErreur.setText("Serveur non défini.\nAppuyer sur \'MENU\' puis \"Préférences\" pour changer l'adresse IP du serveur");	
+					vTexteMessageErreur.setText("URL Serveur non défini.\nAppuyer sur \'MENU\' puis \"Préférences\" pour changer l'adresse IP du serveur");	
 				}
 				else {
 					// recuperation des valeurs des champs texte
@@ -95,7 +107,7 @@ public class FindMyContactsActivity extends Activity {
 								}
 							}
 							else {
-								Log.e(FindMyContactsActivity.class.toString(), "Pas de message reponse retourné.");
+								vTexteMessageErreur.setText("Pas de réponse du serveur... Serveur indisponible ou URL incorrect");
 							}
 							
 						} catch (InterruptedException e) {

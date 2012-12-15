@@ -34,6 +34,7 @@ public class MAJContactActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nouveau_contact_layout);
+		setTitle("Editer un contact");
 		
 		// recuperation des valeurs de l'intent
 		Intent vIntent = getIntent();
@@ -71,6 +72,9 @@ public class MAJContactActivity extends Activity {
 				}
 			}
 		});
+
+		Button vBoutonValider = (Button) findViewById(R.id.btnValiderContact);
+		vBoutonValider.setText("Modifier");
 		
         JSONObject vMessageDemandeRecuperationUtilisateur = 
         		FormatMessageEnvoi.formatterMessageRecuperationUtilisateur(_idContact);

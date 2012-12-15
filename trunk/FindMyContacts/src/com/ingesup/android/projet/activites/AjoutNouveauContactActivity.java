@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,10 +34,14 @@ public class AjoutNouveauContactActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.nouveau_contact_layout);
-		
+		setTitle("Créer un contact");
+
 		Intent vIntent = getIntent();
         _adresseServeur = (String) vIntent.getExtras().get("serveur");
 
+        // parametrer l'actionbar
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        
 		final TextView vTfNumRue = (TextView) findViewById(R.id.tfNumRue);
 		final TextView vTfNomRue = (TextView) findViewById(R.id.tfNomRue);
 		final TextView vTfCodePostal = (TextView) findViewById(R.id.tfCodePostal);
@@ -133,4 +138,19 @@ public class AjoutNouveauContactActivity extends Activity {
 			}
 		});
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	switch(item.getItemId()) {
+ 			 
+	    	case android.R.id.home : 
+	    		onBackPressed(); break;
+				
+	    	default : 
+	    		Log.e(AjoutNouveauContactActivity.class.toString(), "Menu inconnu : " + item.getItemId());
+    	}
+
+    	return super.onOptionsItemSelected(item);
+    }
 }

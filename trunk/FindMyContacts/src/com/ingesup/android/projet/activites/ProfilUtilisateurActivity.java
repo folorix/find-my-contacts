@@ -16,9 +16,10 @@ import com.ingesup.android.projet.json.GestionMessage;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.StructuredPostal;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Profile;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -46,25 +47,25 @@ public class ProfilUtilisateurActivity extends MapActivity {
         Profile._ID,
         Profile.DISPLAY_NAME_PRIMARY,
         Profile.LOOKUP_KEY,
-        Profile.PHOTO_THUMBNAIL_URI,
+        Profile.PHOTO_URI,
+        StructuredPostal.FORMATTED_ADDRESS
     };
-
+	
 	protected static final int CONTACT_PICKER_RESULT = 1001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profil_layout);
-
+        setTitle("Profil utilisateur");
+        
         // recuperation des valeurs correspondant au login et au jeton de session
         Intent vIntent = getIntent();
         _login = (String) vIntent.getExtras().get("login");
         _adresseServeur = (String) vIntent.getExtras().get("serveur");
-        
+
         // parametrer l'actionbar
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         
         // ajouter les controles de zoom sur la mapview
         MapView mapView = (MapView) findViewById(R.id.mapview);
@@ -84,29 +85,36 @@ public class ProfilUtilisateurActivity extends MapActivity {
         });
         
         // Issue #5 : Affichage des informations utilisateurs
-        // Retrieves the profile from the Contacts Provider
-        Cursor vProfilCursor =
-                getContentResolver().query(
-                        Profile.CONTENT_URI,
-                        mProjection,
-                        null,
-                        null,
-                        null);
-    	
-        vProfilCursor.moveToFirst();
-        
-        // recuperation du nom prenom de profil utilisateur
-        TextView vTvNomPrenom = (TextView) findViewById(R.id.tvNomPrenomProfil);
-        vTvNomPrenom.setText(vProfilCursor.getString(1));
+        // recuperation de l'adresse postale
+        // get the data package containg the postal information for the contact
+        Cursor vProfilCursor = getContentResolver().query(
+        		// Retrieves data rows for the device user's 'profile' contact
+                Uri.withAppendedPath(
+                    ContactsContract.Profile.CONTENT_URI,
+                    ContactsContract.Contacts.Data.CONTENT_DIRECTORY),
+                mProjection,
+                ContactsContract.Contacts.Data.MIMETYPE + "=?",
+                new String[]{
+                        ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
+                },
+                null);
 
-		// recuperation de la photo de profil di profil utilisateur
-        ImageView vImgProfil = (ImageView) findViewById(R.id.imgProfil);
-        vImgProfil.setImageURI(Uri.parse(vProfilCursor.getString(3)));
-        
-        // TODO: Recuperer adresse postale
-        // TODO: Recuperer numero de telephone
-        // TODO: Recuperer adresse email
+        vProfilCursor.moveToFirst();
+        if(vProfilCursor.getCount() > 0) {
+            // recuperation du nom prenom de profil utilisateur
+            TextView vTvNomPrenom = (TextView) findViewById(R.id.tvNomPrenomProfil);
+            vTvNomPrenom.setText(vProfilCursor.getString(vProfilCursor.getColumnIndex(Profile.DISPLAY_NAME_PRIMARY)));
+
+    		// recuperation de la photo de profil di profil utilisateur
+            ImageView vImgProfil = (ImageView) findViewById(R.id.imgProfil);
+            vImgProfil.setImageURI(Uri.parse(vProfilCursor.getString(vProfilCursor.getColumnIndex(Profile.PHOTO_URI))));
+            
+            // recuperation de l'adresse du profil utilisateur
+        	TextView vTvAdresse = (TextView) findViewById(R.id.tvAdresseProfil);
+        	vTvAdresse.setText(vProfilCursor.getString(vProfilCursor.getColumnIndex(StructuredPostal.FORMATTED_ADDRESS)));
         	
+        }
+        
         vProfilCursor.close();
     }
 
